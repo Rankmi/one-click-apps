@@ -44,7 +44,11 @@ services:
             REDIS_URL: redis://:$$cap_REDIS_PASSWORD@srv-captain--$$cap_appname-redis:6379
             SECRET_KEY: $$cap_SECRET
             PORT: 8000
-            EMAIL_URL: $$cap_SMTP
+            #EMAIL_URL: $$cap_SMTP
+            EMAIL_HOST: $$cap_SMTP_HOST
+            EMAIL_HOST_USER: $$cap_SMTP_USER
+            EMAIL_HOST_PASSWORD: $$cap_SMTP_PASS
+            EMAIL_PORT: $$cap_SMTP_PORT
             GLITCHTIP_DOMAIN: http://$$cap_appname.$$cap_root_domain
             DEFAULT_FROM_EMAIL: $$cap_FROM_EMAIL
             CELERY_WORKER_CONCURRENCY: $$cap_CELERY_WORKER_CONCURRENCY
@@ -57,7 +61,7 @@ caproverOneClickApp:
     variables:
         - id: $$cap_GLITCHTIP_VERSION
           label: GlitchTip Version
-          defaultValue: 'v3.1.2'
+          defaultValue: 'v4.1'
           description: Check out their Docker page for the valid tags https://hub.docker.com/r/glitchtip/glitchtip/tags
           validRegex: /^([^\s^\/])+$/
         - id: $$cap_POSTGRES_VERSION
@@ -74,10 +78,22 @@ caproverOneClickApp:
           defaultValue: '2'
           description: Number of concurrent celery workers. Defaults to number of CPU cores. Highly recommended to change. Our sample docker compose file defaults this to 2, to avoid unwanted and unnecessary scaling.
           label: Celery Worker Concurrency
-        - id: $$cap_SMTP
-          defaultValue: smtp://email:password@smtp_url:port
+        - id: $$cap_SMTP_HOST
+          defaultValue: SMTP_HOST
           description: See https://glitchtip.com/documentation/install#configuration.
           label: SMTP Configuration
+        - id: $$cap_SMTP_USER
+          defaultValue: SMTP_USER
+          description: See https://glitchtip.com/documentation/install#configuration.
+          label: SMTP Configuration
+        - id: $$cap_SMTP_PASS
+          defaultValue: SMTP_PASS
+          description: See https://glitchtip.com/documentation/install#configuration.
+          label: SMTP Configuration
+          - id: $$cap_SMTP_PORT
+          defaultValue: 587
+          description: See https://glitchtip.com/documentation/install#configuration.
+          label: SMTP Configuration            
         - id: $$cap_FROM_EMAIL
           defaultValue: info@example.com
           description: Default from email address.
